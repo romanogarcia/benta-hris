@@ -3,12 +3,22 @@
 @section('content')
 <div class="content-wrapper">
   <div class="content">
-  @include('includes.messages')
     <div class="card">
       <div class="card-header">
         Bulk Payroll
       </div>
         <div class="card-body">
+          @if ($message = Session::get('success'))
+            <div class="alert alert-success" role="alert">
+                <i class="mdi mdi-alert-circle"></i>
+                <strong>{{ $message }}</strong>
+            </div>
+          @elseif($message = Session::get('error'))
+            <div class="alert alert-danger" role="alert">
+                <i class="mdi mdi-alert-circle"></i>
+                <strong>{{ $message }}</strong>
+            </div>
+          @endif
           <form method="post" action="{{ route('payroll.generate') }}">
           @csrf
           

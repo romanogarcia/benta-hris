@@ -1,0 +1,16 @@
+.report-bir-logo{
+    height  : 50px;
+    width   : 50px;
+    float: left;
+}
+
+
+@media print{
+    .no-print{
+        display: none;
+        width: 100%;
+    }
+    @page { 
+        margin: 0mm; 
+    }
+}

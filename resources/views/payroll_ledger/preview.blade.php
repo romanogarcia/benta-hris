@@ -865,11 +865,11 @@
         er_gross        = parseFloat(er_gross);
         er_dd           = parseFloat(er_dd);
         er_dd           = Math.abs(er_dd);
-        var ee_net      = 0.00;
-        if(er_gross > 0){
+        var er_net      = 0.00;
+        // if(er_gross > 0){
             er_net      = er_gross + er_dd;
             er_net      = er_net.toFixed(2);
-        }
+        // }
         er_net          = (er_net <= 0) ? '0.00' : er_net;
 
         

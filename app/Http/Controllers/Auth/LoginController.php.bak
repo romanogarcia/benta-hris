@@ -7,7 +7,6 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Auth;
-use Session;
 use App\User;
 use App\Companies;
 use Illuminate\Validation\ValidationException;
@@ -116,11 +115,4 @@ class LoginController extends Controller
 
         return property_exists($this, 'username') ? $this->username : 'email';
     }
-	public function logout(Request $request) {
-	  Auth::logout();
-	  //Session::put('sess_msg', 'Session has expired!');
-	  //Session::flash('sess_msg', 'Session has expired!');
-	  //return redirect('/login')->with('message','Session has expired!');
-	  return redirect('/login');
-	}
 }

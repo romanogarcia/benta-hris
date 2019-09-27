@@ -45,7 +45,7 @@
 							<?php $check=checkreports("Philippines: BIR 1601C Report",Auth::user()->Employee->department_id);?>
 							@if($check)
 							<tr>
-								<td><a  href="{{route('report.comming_soon')}}" style="text-decoration: none;"><i class="mdi mdi-calendar-plus" ></i> &nbsp;&nbsp; Philippines: BIR 1601C Report </a></td>
+								<td><a  href="{{route('report_bir_1601c.index')}}" style="text-decoration: none;"><i class="mdi mdi-calendar-plus" ></i> &nbsp;&nbsp; Philippines: BIR 1601C Report </a></td>
 							</tr>
 							@endif
 							<?php $check=checkreports("Philippines: Payroll BPI Payroll Report",Auth::user()->Employee->department_id);?>

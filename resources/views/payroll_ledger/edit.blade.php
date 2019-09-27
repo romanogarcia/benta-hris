@@ -506,7 +506,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="form-group text-center">
-                            <button class="btn btn-success" type="submit"><i class="mdi mdi-pencil"></i> &nbsp;Update</button>
+                            <!-- <button class="btn btn-success" type="submit"><i class="mdi mdi-pencil"></i> &nbsp;Update</button> -->
                             <a href="{{ route('payroll.generate_pdf', $payroll['id']) }}" class="btn btn-primary" target="_blank"><i class="mdi mdi-book-open"></i> &nbsp;Preview PDF</a>
                             <button class="btn btn-success" type="submit"><i class="mdi mdi-content-save"></i> &nbsp;Save</button>
 							<a href="javascript:void(0);" data-toggle="modal" data-target="#DeleteModal" class="btn btn-danger"><i class="mdi mdi-delete"></i> &nbsp;Remove</a>
@@ -884,14 +884,14 @@
         er_gross        = parseFloat(er_gross);
         er_dd           = parseFloat(er_dd);
         er_dd           = Math.abs(er_dd);
-        var ee_net      = 0.00;
-        if(er_gross > 0){
+        var er_net      = 0.00;
+
+        // if(er_gross > 0){
             er_net      = er_gross + er_dd;
             er_net      = er_net.toFixed(2);
-        }
+        // }
         er_net          = (er_net <= 0) ? '0.00' : er_net;
 
-        
         $('#er_net').val(er_net);
     }
 

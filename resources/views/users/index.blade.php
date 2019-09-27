@@ -22,7 +22,20 @@
                     <i class="mdi mdi-alert-circle"></i>
                     <strong>{{ $message }}</strong>
                 </div>
-            @endif
+            @endif	
+				@if((check_permission(Auth::user()->Employee->department_id,"User Management","full")) || (check_permission(Auth::user()->Employee->department_id,"User Management","ADD")))
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <div class="form-group">
+                            <a style="position: relative; z-index: 999;" href="{{ route('users.create') }}" class="btn  btn-primary btn-icon-text btn-sm">
+                                <i class="mdi mdi-account-plus"></i>                             
+                                Add New User
+                            </a>
+                        </div>
+                    </div>
+                </div> 
+				@endif
+			
 				@if((check_permission(Auth::user()->Employee->department_id,"User Management","full")) || (check_permission(Auth::user()->Employee->department_id,"User Management","View")))
               <div id="search_form_container">
                 <div class="row">
@@ -87,7 +100,7 @@
               </div>
 				@endif
               <div class="table-responsive" id="search_result_container" style="display: none;">
-                  <table class="table" id="id-data_table">
+                  <table class="table table-bordered table-striped"  id="id-data_table">
                       <thead>
                         <tr>
                           <th>Employee ID</th>
@@ -276,6 +289,10 @@ $(document).ready(function(){
 
   });
 
-
+	if(window.matchMedia("(max-width: 992px)").matches){
+            $("#search_result_container").css("margin-top", "0px");
+        }else{
+            $("#search_result_container").css("margin-top", "-80px");
+        }
 </script>
 @endsection

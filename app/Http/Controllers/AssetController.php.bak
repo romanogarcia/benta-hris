@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 use App\Asset;
 use App\AssetCategory;
@@ -40,7 +41,7 @@ class AssetController extends Controller
         $to_select      = array('*');
 
         $categories     = AssetCategory::select($to_select)->orderBy('created_at', 'desc')->get();
-        $locations      = AssetLocation::select($to_select)->leftJoin('countries','countries.id','=','asset_locations.country_id')->orderBy('asset_locations.created_at', 'desc')->get();
+        $locations      = AssetLocation::select($to_select)->orderBy('created_at', 'desc')->get();
         $employees      = Employee::select($to_select)->orderBy('created_at', 'desc')->get();
         $suppliers      = AssetSupplier::select($to_select)->orderBy('created_at', 'desc')->get();
         $date           = date('Y-m-d');
@@ -58,12 +59,12 @@ class AssetController extends Controller
     {
             
         $validatedData = $this->validate($request, [
-            'property_number'   => 'nullable',
+            'property_number'   => 'required',
             'item_description'  => 'required',
             'asset_no'          => 'nullable',
-            'serial_number'     => 'nullable',
-            'mr_number'         => 'nullable',
-            'po_no'             => 'nullable',
+            'serial_number'     => 'required',
+            'mr_number'         => 'required',
+            'po_no'             => 'required',
             'acquisition_cost'  => 'required|regex:/^[0-9]{1,}(,[0-9]{3})*(\.[0-9]+)*$/',
             'date_acquired'     => 'required',
             'condition'         => 'required',
@@ -72,7 +73,6 @@ class AssetController extends Controller
             'location'          => 'required',
             'supplier'          => 'required',
             'category'          => 'required',
-            'notes'             => 'nullable',
                 
         ]);
         if($validatedData){
@@ -91,7 +91,6 @@ class AssetController extends Controller
             $serial_number              = $request->serial_number;
             $property_number            = $request->property_number;
             $condition                  = $request->condition;
-            $notes                      = $request->notes;
             $date_acquired              = \Carbon\Carbon::createFromFormat(get_date_format(), $request->date_acquired)->format('Y-m-d');
             $slug_token                 = generate_unique_token();
 
@@ -115,7 +114,6 @@ class AssetController extends Controller
             $asset->serial_number           = $serial_number;
             $asset->property_number         = $property_number;
             $asset->date_acquired           = $date_acquired;
-            $asset->notes                   = $notes;
             $asset->condition               = $condition;
             $asset->slug_token              = $slug_token;
             $is_saved                       = $asset->save();
@@ -150,8 +148,6 @@ class AssetController extends Controller
         $to_select  = array('*');
         //findOrFail
         $data           = Asset::where('assets.slug_token','=',$slug_token)
-        
-
         ->select($to_select)
         ->leftJoin('asset_categories','asset_categories.id','=','assets.category_id')
         ->leftJoin('asset_locations','asset_locations.id','=','assets.location_id')
@@ -162,7 +158,7 @@ class AssetController extends Controller
         
         
         $categories     = AssetCategory::select($to_select)->orderBy('created_at', 'desc')->get();
-        $locations      = AssetLocation::select($to_select)->leftJoin('countries','countries.id','=','asset_locations.country_id')->orderBy('asset_locations.created_at', 'desc')->get();
+        $locations      = AssetLocation::select($to_select)->orderBy('created_at', 'desc')->get();
         $employees      = Employee::select($to_select)->orderBy('created_at', 'desc')->get();
         $suppliers      = AssetSupplier::select($to_select)->orderBy('created_at', 'desc')->get();
         
@@ -180,12 +176,12 @@ class AssetController extends Controller
     public function update(Request $request, $slug_token)
     {
         $validatedData = $this->validate($request, [
-            'property_number'   => 'nullable',
+            'property_number'   => 'required',
             'item_description'  => 'required',
             'asset_no'          => 'nullable',
-            'serial_number'     => 'nullable',
-            'mr_number'         => 'nullable',
-            'po_no'             => 'nullable',
+            'serial_number'     => 'required',
+            'mr_number'         => 'required',
+            'po_no'             => 'required',
             'acquisition_cost'  => 'required|regex:/^[0-9]{1,}(,[0-9]{3})*(\.[0-9]+)*$/',
             'date_acquired'     => 'required',
             'condition'         => 'required',
@@ -194,7 +190,6 @@ class AssetController extends Controller
             'location'          => 'required',
             'supplier'          => 'required',
             'category'          => 'required',
-            'notes'             => 'nullable',
         ]);
             
         $asset                          = Asset::where('slug_token', $slug_token)->firstOrFail();
@@ -247,22 +242,15 @@ class AssetController extends Controller
         $date_range_pick               = $request->date_range_pick;
 
         $to_select = array('assets.id',
-                           'assets.asset_number',
                            'assets.property_number',
                            'assets.item_description',
                            'assets.acquisition_cost',
                            'assets.date_acquired',
                            'assets.slug_token',
                            'assets.condition',
-                           'assets.notes',
                            'employees.first_name',
                            'employees.last_name',
                            'asset_locations.location',
-                           'asset_locations.zip_code',
-                           'asset_locations.address',
-                           'asset_locations.city',
-                           'asset_locations.country_id',
-                           'countries.country_name',
                            );
         
         $filters = [];
@@ -290,7 +278,6 @@ class AssetController extends Controller
             $data = Asset::where($filters)
             ->select($to_select)
             ->Leftjoin('asset_locations','asset_locations.id','=','assets.location_id')
-            ->join('countries','countries.id','=','asset_locations.id')
             ->join('employees','employees.id','=','assets.employee_id')
             ->whereRaw("assets.created_at >= ? AND assets.created_at <=?",[$from.' 00:00:00',$to.' 23:59:59'])
             ->orderBy('assets.created_at','desc')
@@ -299,7 +286,6 @@ class AssetController extends Controller
             $data = Asset::where($filters)
             ->select($to_select)
             ->leftJoin('asset_locations','asset_locations.id','=','assets.location_id')
-            ->join('countries','countries.id','=','asset_locations.id')
             ->join('employees','employees.id','=','assets.employee_id')
             ->orderBy('assets.created_at','desc')
             ->get();    
@@ -318,10 +304,6 @@ class AssetController extends Controller
 				}
 				
             })
-            ->addIndexColumn()
-            ->addColumn('asset_no', function($row){
-                return ucfirst($row->asset_number);
-            })
 			->addIndexColumn()
             ->addColumn('item_description', function($row){
                 return ucfirst($row->item_description);
@@ -339,22 +321,7 @@ class AssetController extends Controller
             })
             ->addIndexColumn()
             ->addColumn('location', function($row){
-                $response= $row->location;
-                if(!empty($row->address))
-                    $response.=", ".$row->address;
-                if(!empty($row->city))
-                    $response.=", ".$row->city;
-                if(!empty($row->country_name))
-                    $response.=", ".$row->country_name;
-                if(!empty($row->zip_code))
-                    $response.=", ".$row->zip_code;
-               
-    
-                    return $response;
-            })
-            ->addIndexColumn()
-            ->addColumn('notes', function($row){
-                return ucfirst($row->notes);
+                return ucfirst($row->location);
             })
             ->addIndexColumn()
             ->addColumn('condition', function($row){
@@ -376,7 +343,7 @@ class AssetController extends Controller
             
                 return $response;
 			})
-            ->rawColumns(['property_no', 'item_description','acquisition_cost','date_acquired','location','notes','condition','employee', 'action'])
+            ->rawColumns(['property_no', 'item_description','acquisition_cost','date_acquired','location','condition','employee', 'action'])
             ->make(true);
             
         return $data_tables;
@@ -600,4 +567,6 @@ class AssetController extends Controller
             })->download('xlsx');
         }
     }
+
+    
 }

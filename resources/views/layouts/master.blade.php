@@ -77,7 +77,31 @@
   </script>
   <!-- <script src="{{ asset('/js/js/toastDemo.js') }}"></script> -->
   <!-- <script src="{{ asset('/js//js/desktop-notification.js') }}"></script> -->
-
+	<script type="text/javascript">
+         jQuery(document).ready(function(){
+			 var session_time=$('#sessiontime').val()
+			var url= window.location.pathname;
+			url.substring(url.lastIndexOf("/") + 1);
+			if(url!="/login"){
+				 setInterval(function(){
+					 jQuery.ajax({
+						 url: "{{ route('user.logout') }}",
+						 type: 'GET',
+						 data: {
+							"_token": "{{ csrf_token() }}",
+						},
+						 success:function(response){
+							 window.location="/login"; 
+							 return false;
+						 },
+						 error:function(data){
+							alert("something wrong")
+						 }
+					 });
+				 },session_time);
+			}
+         });
+    </script>
  
   <script type="text/javascript">
     $(document).ready(function (){

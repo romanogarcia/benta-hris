@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\AssetSupplier;
 use DataTables;
 use Auth;
+use App\Country;
 class AssetSupplierController extends Controller
 {
     /**
@@ -25,7 +26,10 @@ class AssetSupplierController extends Controller
      */
     public function create()
     {
-        return view('asset.supplier.create');
+        $to_select  = array('countries.id',
+                    'countries.country_name');
+        $countries  = Country::select($to_select)->get();
+        return view('asset.supplier.create',compact('countries'));
     }
 
     /**
@@ -36,16 +40,53 @@ class AssetSupplierController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+         //dd($request);
+
+         
         $validatedData = $this->validate($request, [
-            'supplier'      => 'required|max:150',
-            'address'      => 'required|max:150',
+            'type'          => 'required',
         ]);
 
-        $asset_supplier             = new AssetSupplier();
-        $asset_supplier->supplier   = $request->supplier;
-        $asset_supplier->address    = $request->address;
-        $is_saved                   = $asset_supplier->save();
+        if($request->type=="Person"){
+            $validatedData = $this->validate($request, [
+                'fname'         => 'required|max:150',
+                'lname'         => 'required|max:150',
+            ]);         
+        }
+        if($request->type=="Company"){
+            $validatedData = $this->validate($request, [
+                'supplier'      => 'required|max:150',
+            ]);         
+        }
+        $validatedData = $this->validate($request, [
+            'email'         => 'nullable|email',
+            'phone'         => 'nullable|regex:/^[0-9]+$/|max:11',
+            'mobile'        => 'nullable|regex:/^[0-9]+$/|max:11',
+            'zip_code'      => 'nullable',
+            'address'       => 'nullable',
+            'city'          => 'nullable',
+            'country'       => 'nullable',
+
+
+
+        ]);
+        $asset_supplier                 = new AssetSupplier();
+        $asset_supplier->type           = $request->type;
+        if($request->type =="Person"){
+            $asset_supplier->first_name = $request->fname;
+            $asset_supplier->last_name  = $request->lname;
+        }
+        if($request->type =="Company")
+            $asset_supplier->supplier   = $request->supplier;
+
+        $asset_supplier->email          = $request->email;
+        $asset_supplier->phone          = $request->phone;
+        $asset_supplier->mobile         = $request->mobile;
+        $asset_supplier->address        = $request->address;
+        $asset_supplier->zip_code       = $request->zip_code;
+        $asset_supplier->city           = $request->city;
+        $asset_supplier->country_id     = $request->country;
+        $is_saved                       = $asset_supplier->save();
         
         if($is_saved)
             return redirect(route('asset_supplier.index'))->with('success', 'Successfully Added');
@@ -72,8 +113,11 @@ class AssetSupplierController extends Controller
      */
     public function edit($id)
     {
+        $to_select  = array('countries.id',
+                            'countries.country_name');
+        $countries  = Country::select($to_select)->get();
         $data = AssetSupplier::findOrFail($id);
-        return view('asset.supplier.edit', compact('data'));
+        return view('asset.supplier.edit', compact('data','countries'));
     }
 
     /**
@@ -86,14 +130,42 @@ class AssetSupplierController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $this->validate($request, [
-            'supplier'      => 'required|max:150',
-            'address'       => 'required|max:150',
+            'type'          => 'required',
         ]);
 
-        $asset_supplier             = AssetSupplier::findOrFail($id);
-        $asset_supplier->supplier   = $request->supplier;
-        $asset_supplier->address    = $request->address;
-        $is_saved                   = $asset_supplier->save();
+        if($request->type=="Person"){
+            $validatedData = $this->validate($request, [
+                'fname'         => 'required|max:150',
+                'lname'         => 'required|max:150',
+            ]);         
+        }
+        if($request->type=="Company"){
+            $validatedData = $this->validate($request, [
+                'supplier'      => 'required|max:150',
+            ]);         
+        }
+        $validatedData = $this->validate($request, [
+            'email'         => 'nullable|email',
+            'phone'         => 'nullable|regex:/^[0-9]+$/|max:11',
+            'mobile'        => 'nullable|regex:/^[0-9]+$/|max:11',
+            'zip_code'      => 'nullable',
+            'address'       => 'nullable',
+            'city'          => 'nullable',
+            'country'       => 'nullable',
+
+
+
+        ]);
+
+        $asset_supplier                 = AssetSupplier::findOrFail($id);
+        $asset_supplier->email          = $request->email;
+        $asset_supplier->phone          = $request->phone;
+        $asset_supplier->mobile         = $request->mobile;
+        $asset_supplier->address        = $request->address;
+        $asset_supplier->zip_code       = $request->zip_code;
+        $asset_supplier->city           = $request->city;
+        $asset_supplier->country_id     = $request->country;
+        $is_saved                       = $asset_supplier->save();
 
         if($is_saved)
             return redirect(route('asset_supplier.index'))->with('success', 'Successfully Updated');
@@ -138,14 +210,51 @@ class AssetSupplierController extends Controller
 				return $row->id;
 				}
             })
-            
+            ->addIndexColumn()
+            ->addColumn('type', function($row){
+                return ucfirst($row->type);
+            })
 			->addIndexColumn()
             ->addColumn('supplier', function($row){
-                return ucfirst($row->supplier);
+                if($row->type=="Company")
+                    return ucfirst($row->supplier);
+                else
+                    return ucfirst($row->first_name)." ".ucfirst($row->last_name);
+                
             })
             ->addIndexColumn()
+            ->addColumn('phone', function($row){
+                $response="";
+                if(!empty($row->phone))
+                    $response=$row->phone;
+                    return $response;
+            })
+            ->addIndexColumn()
+            ->addColumn('mobile', function($row){
+                $response="";
+                if(!empty($row->phone))
+                    $response=$row->phone;
+                    return $response;
+            })
             ->addColumn('address', function($row){
-                return ucfirst($row->address);
+                $response="";
+            if(!empty($row->address))
+                $response.=$row->address;
+            if(!empty($row->city) && !empty($row->address))
+                $response.=", ".$row->city;
+            else
+                $response.=$row->country_name;
+            if(!empty($row->country_name) && !empty($row->city) && !empty($row->address))
+                $response.=", ".$row->country_name;
+            else
+                $response.=$row->country_name;
+            if(!empty($row->zip_code) && !empty($row->country_name) && !empty($row->city) && !empty($row->address))
+                $response.=", ".$row->zip_code;
+            else    
+                $response.=$row->country_name;
+           
+
+                return $response;
 			})
 			->addIndexColumn()
             ->addColumn('action', function($row){
@@ -160,7 +269,7 @@ class AssetSupplierController extends Controller
                 
                 return $response;
 			})
-            ->rawColumns(['id', 'supplier','address', 'action'])
+            ->rawColumns(['id','type','supplier','phone','mobile','address', 'action'])
             ->make(true);
             
         return $data_tables;

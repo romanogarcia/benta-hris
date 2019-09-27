@@ -195,7 +195,6 @@ class BankController extends Controller
 			'company_logo' => 'nullable|image|max:2000|dimensions:max_width=933,max_height=250',
             'company_mobile_logo' => 'nullable|image|max:2000|dimensions:max_width=512,max_height=512',
 			'browser_icon' => 'nullable|image|max:2000|dimensions:max_width=512,max_height=512',
-			'sessiontime' => 'nullable',
 		];
 		    $customMessages = [
 				'company_logo.dimensions' => 'The Logo allows image with 933px * 250px dimensions.',
@@ -211,7 +210,6 @@ class BankController extends Controller
 		
 		$payroll_deactivate = $request->payroll_deactivate;
 		$time_in_out_deactivate = $request->time_in_out_deactivate;
-		$sessiontime = $request->sessiontime;
 		if($payroll_deactivate){
 			$user->payroll_deactivate = $payroll_deactivate;
 		}
@@ -223,7 +221,7 @@ class BankController extends Controller
 		}
 		else{
 			$user->time_in_out_deactivate = 0;
-		}	
+		}
 		$user->save();
 		if($request->company_id!=''){
 			
@@ -275,9 +273,6 @@ class BankController extends Controller
 			}
 			else{
 				$company->nx_login_failed = 0;
-			}
-			if($sessiontime!=""){
-				$company->session_time=$sessiontime;
 			}
 			$company->date_format = $request->date_format;
 			$company->save();

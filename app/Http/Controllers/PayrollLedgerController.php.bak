@@ -361,14 +361,8 @@ class PayrollLedgerController extends Controller
             'taxable_income'        => number_format($request->ee_taxable_income,2,'.',''),
             'witholding_tax'        => number_format($request->ee_witholding_tax,2,'.','')
         );
-        if($request->updated_payroll_date){
-            $payroll_date = \Carbon\Carbon::createFromFormat(get_date_format(), $request->updated_payroll_date)->format('Y-m-d');
-        }else{
-            $payroll_date = $request->payroll_date;
-        }
-
         $data['payroll_type']   = 1;
-        $data['payroll_date']   = $payroll_date;
+        $data['payroll_date']   = $request->updated_payroll_date? \Carbon\Carbon::createFromFormat(get_date_format(), $request->updated_payroll_date)->format('Y-m-d'): \Carbon\Carbon::createFromFormat(get_date_format(), $request->payroll_date)->format('Y-m-d');
         $data['is_paid']        = $request->is_paid == NULL ? 0 : 1;
         $data['description']    = $request->description;
         $data['notes']          = $request->notes;

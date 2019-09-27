@@ -58,7 +58,7 @@
             </div>
             <div class="row">
 				<input type="hidden" name="company_id" id="company_id" value="{{ $r->id }}" />
-              <div class="col-md-12 col-sm-12">
+            	<div class="col-md-12 col-sm-12">
                   <div class="form-group">
 					<div class="row">
 					<div class="col-md-4 col-sm-6 col-xs-12">	  
@@ -79,6 +79,23 @@
 					</div>  
                   </div>
               </div>
+				<div class="col-md-12 col-sm-12">
+                  <div class="form-group">
+					<div class="row">
+					<div class="col-md-4 col-sm-6 col-xs-12">	  
+					  <label for="date_format">Session Time</label>
+						  
+						  <input id="sessiontime" class="form-control @error('sessiontime') is-invalid @enderror form-control-sm" name="sessiontime" type="text" placeholder="Session Time in minut" value="{{$r->session_time}}">
+						  @error('date_format')
+							  <span class="invalid-feedback" role="alert">
+								  <strong>{{ $message }}</strong>
+							  </span>
+						  @enderror
+					</div>	
+					</div>  
+                  </div>
+              </div>
+				
             </div>
 
             <div class="row">

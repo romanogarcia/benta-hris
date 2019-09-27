@@ -196,17 +196,22 @@ Route::middleware(['auth', 'check_access'])->group(function () {
                 'as'    => 'dtr.absence_list'
             ]
         );
-        Route::get('/excel_tardiness',[
-                'uses'  => 'DailyTimeRecordController@excel_tardiness',
-                'as'    => 'dtr.excel_tardiness'
-        ]);
+       
         Route::any('/tardiness_list',
             [
                 'uses'  => 'DailyTimeRecordController@tardiness_list',
                 'as'    => 'dtr.tardiness_list'
             ]
         );
-        Route::get('/download_filter_export',[
+      
+
+    });
+      Route::group(['prefix'=>'dtr'], function(){
+		Route::get('/excel_tardiness',[
+                'uses'  => 'DailyTimeRecordController@excel_tardiness',
+                'as'    => 'dtr.excel_tardiness'
+        ]);
+  		Route::get('/download_filter_export',[
                 'uses'  => 'DailyTimeRecordController@download_filter_export',
                 'as'    => 'dtr.download_filter_export'
         ]);
@@ -223,9 +228,7 @@ Route::middleware(['auth', 'check_access'])->group(function () {
             'uses'  => 'DailyTimeRecordController@download_payroll_report',
             'as'    => 'dtr.download_payroll_report'
         ]);
-
-    });
-    
+	  });
 	Route::any('report',"DailyTimeRecordController@reports")->name("dtr.reports");
     Route::get('attendance/search/q','AttendanceController@searchIndex')->name('attendance.search');
     Route::any('role_list_ajax','RoleController@role_list');
@@ -577,6 +580,16 @@ Route::middleware(['auth', 'check_access'])->group(function () {
         );
     });
 
+
+    // Government Forms Report 
+    Route::group(['prefix'=>'report'], function (){
+        Route::get('bir-1601C',
+            [
+                'uses'  => 'ReportBIR1601CController@index',
+                'as'    => 'report_bir_1601c.index'    
+            ]
+        );
+    });
 });
 
 
@@ -587,6 +600,7 @@ Route::middleware('auth')->group(function () {
     Route::get('attendance/card/list','AttendanceController@indexCard')->name('att.list');
 
 });
+Route::get('user/logout', 'Auth\LoginController@logout')->name('user.logout');
 Route::get('report/comming_soon','DailyTimeRecordController@comming_soon')->name('report.comming_soon');
 Route::resource('module', 'ModulesController');
 Route::resource('page-role', 'PageRoleController');

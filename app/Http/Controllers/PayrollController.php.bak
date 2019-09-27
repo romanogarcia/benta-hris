@@ -73,15 +73,10 @@ class PayrollController extends Controller
 			
 			$from = \Carbon\Carbon::createFromFormat(get_date_format(), $request->from)->format('Y-m-d');
 			$to = \Carbon\Carbon::createFromFormat(get_date_format(), $request->to)->format('Y-m-d');
-            
-            // $attendances = Attendance::Employees([$from,$to]);
-            $attendances = Attendance::where('state_status', '=', 'Approved')
-            ->whereRaw("at_date >= ? AND at_date <=?",[$from.' 00:00:00',$to.' 23:59:59'])
-            ->get();
-
+            $attendances = Attendance::Employees([$from,$to]);
             $employees = [];
             $total     = 0;
-            if(!$attendances){
+            if(empty($attendances->toArray())){
                 return redirect()->back()->with('error','The specified period return an empty result. Please Check the payroll period.'); 
             }
 			if(Auth::user()->employee->account_type == 0){
@@ -91,8 +86,7 @@ class PayrollController extends Controller
 				foreach($attendances as $r) {
 					$employees[] = $r->employee_id;
 				}
-            }
-            // dd($employees);
+			}
 				
             $bill_number = self::generateBillNumber();
             for($i = 0; $i < count($employees); $i++) {

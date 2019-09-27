@@ -21,6 +21,11 @@
           <li class="nav-item nav-profile" title="Current Time/Date" style="cursor: pointer;">
             <span style="color: #333;" id="top_nav-current_realtime_date"></span>
           </li>
+			@if(sessiontime()!="")
+				<input type="hidden" value="{{sessiontime()}}" id="sessiontime">
+			@else
+				<input type="hidden" value="3600000" id="sessiontime">
+			@endif
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
               <img src="{{get_profile_picture()}}" alt="profile"/>

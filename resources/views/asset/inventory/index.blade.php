@@ -112,10 +112,12 @@
             <thead>
               <tr>
                 <th>Property No.</th>
+                <th>Asset No.</th>
                 <th>Item Description</th>
                 <th>Acquisition Cost</th>
                 <th>Date Acquired</th>
                 <th>Location</th>
+                <th>Note</th>
                 <th>Condition</th>
                 <th>Employee</th>
                 <th>Action</th>
@@ -210,10 +212,12 @@
                 },
                 columns: [
                     { data: 'property_no', sortable:true },
+                    { data: 'asset_no', sortable:true },
                     { data: 'item_description', sortable:true },
                     { data: 'acquisition_cost', sortable:false },
                     { data: 'date_acquired', sortable:true },
                     { data: 'location', sortable:true },
+                    { data: 'notes', sortable:true },
                     { data: 'condition', sortable:true },
                     { data: 'employee', sortable:true },   
                     { data: 'action', sortable:false }

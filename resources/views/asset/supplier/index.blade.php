@@ -32,7 +32,10 @@
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Type</th>
                 <th>Supplier</th>
+                <th>Phone No.</th>
+                <th>Mobile No.</th>
                 <th>Address</th>
                 <th>Action</th>
               </tr>
@@ -103,7 +106,10 @@
                 },	  
                 columns: [
                     { data: 'id', sortable:true },
+                    { data: 'type', sortable:true },
                     { data: 'supplier', sortable:true },
+                    { data: 'phone', sortable:false },
+                    { data: 'mobile', sortable:false },
                     { data: 'address', sortable:true },
                     { data: 'action', sortable:false }
                 ],

@@ -38,8 +38,7 @@ class UserController extends Controller
      */
     public function create()
     {
-		$departments = Department::orderBy('name', 'ASC')->get();
-        return view('users.create_user',['departments'=>$departments]);
+        //
     }
 
     /**
@@ -50,90 +49,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $company = Companies::first();
-		$validate = Validator::make(
-			$request->all(),
-			[
-				'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-				'username' => ['required', 'unique:users'],
-				'department' => ['required'],
-				'profile_photo'  => 'image|mimes:jpg,JPG,jpeg,JPEG,png,PNG,gif,GIF|max:2048',
-			 	'password' => 'required|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
-				'confirmpassword' => 'required|same:password',
-					  ],[ 	  
-            	'password.regex' => 'Password must contain Minimum 8 characters, at least one uppercase, one lowercase, one number and one special character.',
-				'confirmpassword.required'=>"The Confirm Password field is required.",
-				'confirmpassword.same'=>"The Confirm Password and Password must match."
-        	]);
-			$validate->after(function ($validate) use ($request){
-			if (!preg_match('/^\S*$/u', $request->username))
-			{
-				return $validate->errors()->add('username', 'White space not allowed in username.');
-			}
-			});
-			$validate->after(function ($validate) use ($request,$company){
-			$username = $request->username;
-			$name = $request->firstname.' '.$request->lastname;
-			$password = $request->password;
-                if ((stripos($password, $name) !== false) || (stripos($password, $username) !== false)) {
-                    return $validate->errors()->add('password', 'Personal Information are not allowed in Password ');
-                }
-                else
-                {
-                    $companies_name=explode(' ',$company->company_name);
-                    foreach($companies_name as $com_name){
-                    if (stripos($password, $com_name) !== false){
-                        return $validate->errors()->add('password', 'Personal Information are not allowed in Password');
-                    }
-                }
-            }
-			});
-	
-		if($validate->fails()){
-			return back()->withErrors($validate)->withInput();
-		}
-		$new_name = "";
-		$employee_number = date('ymd') . 1;
-        $employee = Employee::orderBy('created_at', 'desc')->first();
-        $employee_inc = $employee->id ?? 0;
-        $empno =date('ymd') . $employee_inc + 1;
-		$employee_number="00".$empno;
-       
-		 if ($request->file('profile_photo') != null){
-            $image = $request->file('profile_photo');
-            $new_name = $employee_number . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/faces/'), $new_name);  
-		}
-		
-		
-		$name=$request->firstname.' '.$request->lastname;
-		
-		$user=new User;
-		$user->username=$request->username;
-		$user->name=$name;
-		
-		$user->email=$request->email;
-		$user->password=Hash::make($request->password);
-		$user->language=$request->language;
-		$user->locale=$request->locale;
-		$user->save();
-		
-		$emp=new Employee;
-		$emp->user_id=$user->id;
-		$emp->first_name=$request->firstname;
-		$emp->employee_number=$employee_number;
-		$emp->last_name=$request->lastname;
-		$emp->personal_phone=$request->phone;
-		$emp->email=$request->email;
-		$emp->department_id=$request->department;
-		if($new_name != ''){
-			$emp->employee_image = $new_name;
-		}
-		$emp->save();
-		$userid=User::find($user->id);
-		$userid->employee_id=$emp->id;
-		$userid->save();
-		return redirect('users')->with('success', 'User successfully created');
+        //
     }
 
     /**
@@ -421,7 +337,6 @@ class UserController extends Controller
 	}
 
 	public function search_filter(Request $request){
-		
 		$user_id		= $request->user_id;
 		$department_id	= $request->department_id;
 		$is_active		= $request->is_active;

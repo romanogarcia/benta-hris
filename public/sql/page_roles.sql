@@ -54,7 +54,7 @@ INSERT INTO `page_roles` (`id`, `page_name`, `permissions`, `created_at`, `updat
 (19, 'Leaves', 'full|ADD|VIEW|EDIT|DELETE', '2019-09-09 23:41:01', '2019-09-09 23:41:01', 1, 0, 0, 0, 0, 19),
 (20, 'Employement Status', 'full|ADD|VIEW|EDIT|DELETE', '2019-09-09 23:41:05', '2019-09-09 23:41:05', 1, 0, 0, 0, 0, 20),
 (21, 'Company Bank', 'ADD', '2019-09-09 23:41:11', '2019-09-10 00:52:59', 0, 0, 0, 0, 0, 21),
-(22, 'Setting', 'full|ADD|VIEW|EDIT|DELETE', '2019-09-09 23:41:22', '2019-09-09 23:41:22', 1, 0, 0, 0, 0, 22),
+(22, 'Settings', 'full|ADD|VIEW|EDIT|DELETE', '2019-09-09 23:41:22', '2019-09-09 23:41:22', 1, 0, 0, 0, 0, 22),
 (23, 'SSS', 'full|ADD|VIEW|EDIT|DELETE', '2019-09-09 23:41:22', '2019-09-09 23:41:22', 1, 0, 0, 0, 0, 23),
 (24, 'Tax', 'full|ADD|VIEW|EDIT|DELETE', '2019-09-09 23:41:27', '2019-09-09 23:41:27', 1, 0, 0, 0, 0, 24),
 (25, 'Philhealth', 'full|ADD|VIEW|EDIT|DELETE', '2019-09-09 23:41:31', '2019-09-09 23:41:31', 1, 0, 0, 0, 0, 25),

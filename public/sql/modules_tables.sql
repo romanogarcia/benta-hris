@@ -53,7 +53,7 @@ INSERT INTO `modules_tables` (`id`, `module_name`, `module_link`, `parent`, `pri
 (19, 'Leaves', '/leave-list', 5, 19, '<i class=\"mdi mdi-account-remove-outline\"></i>', 1, '2019-09-05 07:16:23', '2019-09-06 01:12:36', 'route(\'leave.leave_list\')'),
 (20, 'Employement Status', '/employment-status', 5, 20, '<i class=\"mdi mdi-clipboard-check-outline\"></i>', 1, '2019-09-05 07:17:02', '2019-09-05 07:17:02', NULL),
 (21, 'Company Bank', '/banks', 5, 21, '<i class=\"mdi  mdi-bank\"></i>', 1, '2019-09-05 07:17:38', '2019-09-05 07:17:38', NULL),
-(22, 'Setting', '/settings', 5, 22, '<i class=\"mdi mdi-settings\"></i>', 1, '2019-09-05 07:18:38', '2019-09-05 07:18:38', NULL),
+(22, 'Settings', '/settings', 5, 22, '<i class=\"mdi mdi-settings\"></i>', 1, '2019-09-05 07:18:38', '2019-09-05 07:18:38', NULL),
 (23, 'SSS', '/sss', 5, 23, '<i class=\"mdi  mdi-table-large\"></i>', 0, '2019-09-05 07:19:22', '2019-09-05 07:19:32', NULL),
 (24, 'Tax', '/tax', 5, 24, '<i class=\"mdi  mdi-table-large\"></i>', 0, '2019-09-05 07:20:00', '2019-09-05 07:20:00', NULL),
 (25, 'Philhealth', '/philhealth', 5, 25, '<i class=\"mdi  mdi-table-large\"></i>', 0, '2019-09-05 07:20:34', '2019-09-05 07:20:47', NULL),

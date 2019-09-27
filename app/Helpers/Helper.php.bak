@@ -777,14 +777,6 @@ function get_date_format(){
         return 'm-d-Y';
     }
 }
-function sessiontime(){
-    $sessiontime = \App\Companies::first();
-    if($sessiontime != ''){
-        return $sessiontime->session_time * 60000;
-    }else{
-        return "";
-    }
-}
 function get_parents_menu()
 	{
 		$result = [];

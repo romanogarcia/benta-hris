@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title', 'HRIS - Login')
 @section('content')
+
 <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
     <div class="row flex-grow">
         <div class="col-lg-6 d-flex align-items-center justify-content-center">
@@ -8,7 +9,14 @@
           <div class="brand-logo">
             <img src="{{ asset('images/bentach-big-1-1.png') }}" alt="bentacos-logo">
           </div>
+            
+			
           <h4>Welcome back!</h4>
+			@if(@$message)
+			<div class="alert alert-danger alert-block">
+				<strong>{{ $message }}</strong>
+			</div>
+			@endif
           <form class="pt-3" action="{{ route('login') }}" method="post">
             @csrf
 
