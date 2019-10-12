@@ -1,9 +1,8 @@
-## About Bentacos HRIS
+## About  HRIS
 
-The Bentacos  development in creating software for our valued clients, now we have come up with our best Human Resources Information System yet: the Bentacos HRIS Mangement System. We have perfected this through firsthand experiences with our customers’ actual suggestions and collection of good and negative comments and feedback’s.
+The HRIS  development in creating software for our valued clients, now we have come up with our best Human Resources Information System yet: the HRIS Mangement System. We have perfected this through firsthand experiences with our customersâ€™ actual suggestions and collection of good and negative comments and feedbackâ€™s.
 
- 
-Bentacos HRIS Mangement is have five (5) major functionalities. including Attendance Management System, Payroll System, Recruitment System, Human Resources System and Employee Self-Service (Web Based):
+HRIS Mangement is have five (5) major functionalities. including Attendance Management System, Payroll System, Recruitment System, Human Resources System and Employee Self-Service (Web Based):
 
 Attendance Management System keeping a record of employees Working Hours through biometric (Finger Scan) and Pin entry.
 
